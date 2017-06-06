@@ -167,6 +167,10 @@ module.exports = function(app) {
             });
     });
 
+    app.post('/contacts/photo/:no', function(req,res) {
+
+    })
+
     app.delete('/contacts/:no', function(req,res) {
         console.log("### DELETE /contacts/:no");
         var no = req.params.no
@@ -189,11 +193,6 @@ module.exports = function(app) {
                 console.log(err);
             });
         
-    });
-
-    app.get('/initdb', function(req,res) {
-        contactdao.initTable();
-        res.json({ message : "테이블 초기화!"});
     });
 
     //----에러 처리 시작
