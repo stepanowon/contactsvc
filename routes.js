@@ -1,7 +1,7 @@
 var contactdao = require('./contactdao');
 var imagePath = "public/photos/";
 var multer = require('multer');
-var sleep = require('sleep');
+var sleep = require('system-sleep');
 
 var storage = multer.diskStorage({
     destination : function(req, file, callback) {
@@ -25,7 +25,7 @@ module.exports = function(app) {
     app.get('/', function(req, res) {
         console.log("### GET /");
         res.render('index', {
-             title: '연락처서비스',
+             title: '연락처서비스 v2.0',
              subtitle : '(node.js + Express + sqlite3)'
         })
     });
@@ -47,9 +47,10 @@ module.exports = function(app) {
         })
     });
 
+
     app.get('/contacts_long', function(req, res) {
         console.log("### GET /contacts_long");
-        sleep.sleep(2);
+        sleep(1000);
         var photoUrl = req.protocol + '://' + req.get('host') + "/photos/";
         pageno = parseInt(req.query.pageno);
         pagesize = parseInt(req.query.pagesize);
@@ -64,13 +65,13 @@ module.exports = function(app) {
                     totalcount : data[1],
                     contacts : data[0]
                 };
-                res.json(contactlist);
+                res.jsonp(contactlist);
             })
             .catch(function(err) {
                     console.log(err);
             });
     });
-    
+
     app.get('/contacts', function (req, res) {
         console.log("### GET /contacts");
         var photoUrl = req.protocol + '://' + req.get('host') + "/photos/";
@@ -87,7 +88,7 @@ module.exports = function(app) {
                     totalcount : data[1],
                     contacts : data[0]
                 };
-                res.json(contactlist);
+                res.jsonp(contactlist);
             })
             .catch(function(err) {
                     console.log(err);
@@ -100,10 +101,10 @@ module.exports = function(app) {
         var no = req.params.no;
         contactdao.getContact(photoUrl, no)
             .then(function(data) {
-                res.json(data);
+                res.jsonp(data);
             })
             .catch(function(err) {
-                res.json(err);
+                res.jsonp(err);
             });
     });
 
@@ -113,10 +114,24 @@ module.exports = function(app) {
         var name = req.params.name;
         contactdao.searchContact(photoUrl, name)
             .then(function(data) {
-                res.json(data);
+                res.jsonp(data);
             })
             .catch(function(err) {
-                res.json(err);
+                res.jsonp(err);
+            });
+    });
+
+    app.get('/contacts_long/search/:name', function(req,res) {
+        console.log("### GET /contacts_long/search/:name");
+        sleep(1000);
+        var photoUrl = req.protocol + '://' + req.get('host') + "/photos/";
+        var name = req.params.name;
+        contactdao.searchContact(photoUrl, name)
+            .then(function(data) {
+                res.jsonp(data);
+            })
+            .catch(function(err) {
+                res.jsonp(err);
             });
     });
 
@@ -151,10 +166,6 @@ module.exports = function(app) {
                 console.log(err);
             });
     });
-
-    app.post('/contacts/photo/:no', function(req,res) {
-
-    })
 
     app.delete('/contacts/:no', function(req,res) {
         console.log("### DELETE /contacts/:no");

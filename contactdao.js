@@ -2,10 +2,10 @@ var sqlite3 = require('sqlite3').verbose();
 //var db = new sqlite3.Database(':memory:');
 var db = new sqlite3.Database('contacts.db');
 
-var sampleNames= "서연,서윤,지우,서현,민서,윤서,아인,해민,지원,수연,하윤,민아,채빈,채아,지아,시아,효린,설현,소아,민정";
-var arrNames = sampleNames.split(',');
-var lastNames = ["김","이", "박", "서", "고", "안", "임", "나", "강", "최", "손", "우", "정", "윤", "오", "한", "송","황", "권", "류", "홍", "문", "양", "조", "배", "백", "허", "남", "심", "장", "곽", "차", "성", "주", "구", "신", "엄", "공", "함", "염" ];
-
+var firstNames= "Kel,Morgan,Amari,Akiyama,Quan,Ariana,Rana,Carrie,London,Shelley,Hailey,Stella,Aki,Sun,Leigh,Maya,Jermyn,Kim,Lauren,Koryne,Fanny,Maima,Nahid,Khalea,Rachel,Maired,Sa,Serin,Blake,Drew,Lina,Priyal,Megan,Bailey,Amaya,Kaelyn,Charlotte,Korra,Kassie,Keeta,Mallie,Noel,Tracy,Kace,Killion,Kenyatta,Pita,Raye,Sadie,Evon,Addison,Arrietty,Engel,Feron,Courtney,Tonya,Landon,Mila,Nade,Gladys,Sean,Rhu,Rosebud,Sophie,Zari,Rose,Jain,Harper,Lai,Kelley,Lyanne,Le,Nivea,Penelope,Remy,Sophia,Ray,Rai,Amoni,Zoe,Kylie,Zenon,Alania,Aveen,Annabelle,Caroline,Emani,Catera,Lin,Francess,Isabella,Victoria,Isabelle,Ambrosia,Jennifer,Jesse,Kalisa,Katchi,Katherine,Keandra"
+var arrfNames = firstNames.split(',');
+var lastNames = "Anderson,Allen,Adams,Brown,Baker,Bailey,Bell,Brooks,Bennett,Butler,Barnes,Clark,Campbell,Carter,Collins,Cook,Cooper,Cox,Cruz,Davis,Díaz,Evans,Edwards,Flores,Foster,Fisher,Harris,Hall,Hill,Howard,Hughes,Johnson,Jones,Jackson,James,Jenkins,Gray,King,Miller,Martinez,Moore,Martin,Mitchell,Morris,Murphy,Morgan,Myers,Morales,Nelson,Nguyen,Ortiz,Lee,Lewis,Long,Phillips,Parker,Peterson,Price,Powell,Perry,Robinson,Ramirez,Roberts,Rivera,Rogers,Reed,Richardson,Reyes,Ross,Russell,Smith,Scott,Stewart,Sanders,Sullivan,Taylor,Thomas,Thompson,Turner,Torres,Williams,Wilson,White,Walker,Wright,Ward,Wood,Watso,Young";
+var arrlNames = lastNames.split(',');
 
 var initializeDB = function() {
     var no = 0;
@@ -17,9 +17,9 @@ var initializeDB = function() {
                 for (var i=0; i < 100; i++) {
                     var num=""+no;
                     if (no < 10) num = "0"+no;
-                    var ridx = Math.floor(Math.random() * lastNames.length);
+                    var ridx = Math.floor(Math.random() * arrlNames.length);
                     
-                    stmt.run(++no, lastNames[ridx] + arrNames[i % 20], "010-3456-82"+num, "서울시", "" + no + ".jpg");  
+                    stmt.run(++no, arrfNames[i] + " " + arrlNames[ridx], "010-3456-82"+num, "서울시", "" + no + ".jpg");  
                 }
                 stmt.finalize();
             });
@@ -143,7 +143,7 @@ module.exports = {
             if (name.length < 2) {
                 reject({ message:"2글자 이상만 검색이 가능합니다."});
             }
-            var sql = "SELECT no,name,tel,address,photo FROM contacts WHERE name LIKE '%" + name + "%'"
+            var sql = "SELECT no,name,tel,address,photo FROM contacts WHERE name LIKE '%" + name + "%' ORDER BY name ASC"
             db.all(sql, function(err, rows) {
                 if (err) {
                     reject({ message : err });

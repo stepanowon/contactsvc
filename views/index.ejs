@@ -26,7 +26,7 @@
         <ul class="sidebar-nav">
             <a id="menu-close" href="#" class="btn btn-light btn-lg pull-right toggle"><i class="fa fa-times"></i></a>
             <li class="sidebar-brand">
-                <a href="#top" onclick=$("#menu-close").click();>연락처 서비스 API</a>
+                <a href="#top" onclick=$("#menu-close").click();>연락처 서비스 API v2.0</a>
             </li>
             <li>
                 <a href="#a1" onclick=$("#menu-close").click();>GET /contacts</a>
@@ -53,7 +53,10 @@
                 <a href="#a8" onclick=$("#menu-close").click();>POST /contacts/:no/photo</a>
             </li>
             <li>
-                <a href="/console"><b>[ 연락처 서비스 API Console ]</b></a>
+                <a href="#a9" onclick=$("#menu-close").click();>GET /contacts_long</a>
+            </li>
+            <li>
+                <a href="#a10" onclick=$("#menu-close").click();>GET /contacts_long/search/:name</a>
             </li>
         </ul>
     </nav>
@@ -67,9 +70,9 @@
                 <div style="text-align: left; margin:20px 50px 20px 50px ">
                     <ul>
                         <li>간단한 RESTful Service 예제입니다. 내용은 사이드 메뉴를 열어서 확인하세요.</li>
-                        <li>이 API의 데이터는 매일 새벽2시에 초기화되어 100건의 데이터만 남습니다</li>
                         <li>사진 정보를 변경할 수 있도록 업로드 기능을 추가하였습니다.</li>
-                        <li>API 를 직접 테스트해볼 수 있는 API Console 기능을 추가하였습니다. 사이드 메뉴를 확인하세요.</li>
+                        <li>자세한 사용 방법은 http://sample.bmaster.kro.kr 을 참조하세요.</li>
+                        <li>JSONP 지원(O)</li>
                     </ul>
                 </div>
             </div>
@@ -79,7 +82,7 @@
     <aside  id="a1" class="call-to-action bg-primary">
         <div class="container">
             <div class="row">
-                    <h2>1. GET /contacts</h2>
+                    <h3>1. GET /contacts</h3>
             </div>
         </div>
     </aside>
@@ -124,7 +127,7 @@
     <aside  id="a2" class="call-to-action bg-primary">
         <div class="container">
             <div class="row">
-                    <h2>2. GET /contacts/:no</h2>
+                    <h3>2. GET /contacts/:no</h3>
             </div>
         </div>
     </aside>
@@ -165,12 +168,12 @@
     <aside  id="a3" class="call-to-action bg-primary">
         <div class="container">
             <div class="row">
-                    <h2>3. GET /contacts/search/:name</h2>
+                    <h3>3. GET /contacts/search/:name</h3>
             </div>
         </div>
     </aside>
 
-   <!-- GET /contacts/:no -->
+   <!-- GET /contacts/search/:name -->
     <section class="about">
         <div class="container">
             <div class="row">
@@ -188,9 +191,9 @@
                         <div>- 응답데이터 형식</div>
                         <pre>
 [
-   {"no":49,"name":"Jordan","tel":"010-3456-8248","address":"서울시","photo":"http://localhost/photos/49.jpg"},
-   {"no":95,"name":"Jocelyn","tel":"010-3456-8294","address":"서울시","photo":"http://localhost/photos/95.jpg"},
-   {"no":100,"name":"Jordyn","tel":"010-3456-8299","address":"서울시","photo":"http://localhost/photos/100.jpg"}
+   {"no":49,"name":"Jordan Kelly","tel":"010-3456-8248","address":"서울시","photo":"http://localhost/photos/49.jpg"},
+   {"no":95,"name":"Jocelyn Smith","tel":"010-3456-8294","address":"서울시","photo":"http://localhost/photos/95.jpg"},
+   {"no":100,"name":"Jordyn Baker","tel":"010-3456-8299","address":"서울시","photo":"http://localhost/photos/100.jpg"}
 ]</pre>
                     </p>
                 </div>
@@ -203,7 +206,7 @@
     <aside  id="a4" class="call-to-action bg-primary">
         <div class="container">
             <div class="row">
-                    <h2>4. POST /contacts</h2>
+                    <h3>4. POST /contacts</h3>
             </div>
         </div>
     </aside>
@@ -256,7 +259,7 @@ name=....&tel=....&address=....</pre>
     <aside  id="a5" class="call-to-action bg-primary">
         <div class="container">
             <div class="row">
-                    <h2>5. PUT /contacts/:no</h2>
+                    <h3>5. PUT /contacts/:no</h3>
             </div>
         </div>
     </aside>
@@ -310,7 +313,7 @@ no=...&name=....&tel=....&address=....</pre>
     <aside id="a6" class="call-to-action bg-primary">
         <div class="container">
             <div class="row">
-                    <h2>6. DELETE /contacts/:no</h2>
+                    <h3>6. DELETE /contacts/:no</h3>
             </div>
         </div>
     </aside>
@@ -354,7 +357,7 @@ no=...&name=....&tel=....&address=....</pre>
     <aside id="a7"  class="call-to-action bg-primary">
         <div class="container">
             <div class="row">
-                    <h2>7. POST /contacts/batchinsert</h2>
+                    <h3>7. POST /contacts/batchinsert</h3>
             </div>
         </div>
     </aside>
@@ -402,7 +405,7 @@ no=...&name=....&tel=....&address=....</pre>
     <aside id="a8" class="call-to-action bg-primary">
         <div class="container">
             <div class="row">
-               <h2>8. POST /contacts/:no/photo</h2> 
+               <h3>8. POST /contacts/:no/photo</h3> 
             </div>
         </div>
     </aside>
@@ -443,6 +446,90 @@ no=...&name=....&tel=....&address=....</pre>
         </div>
         <!-- /.container -->
     </section>
+
+    <aside  id="a9" class="call-to-action bg-primary">
+        <div class="container">
+            <div class="row">
+                    <h3>9. GET /contacts_long</h3>
+            </div>
+        </div>
+    </aside>
+
+    <!-- GET /contacts -->
+    <section class="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-left">
+                    <p>: 1초의 지연시간 후 연락처 목록 응답. 페이지 번호가 0인 경우 전체 데이터 조회</p>
+                    <p class="lead">
+                        <div>- 전달 파라미터</div>
+                        <ul>
+                            <li>pageno :  페이지 번호(기본값:0)</li>
+                            <li>pagesize :  페이지 사이즈(기본값:5)</li>
+                        </ul>
+                        <div>- 요청 형식</div>
+                        <ul>
+                            <li><a href="/contacts_long">/contacts_long</a></li>
+                            <li><a href="/contacts_long?pageno=2">/contacts_long?pageno=2</a></li>
+                            <li><a href="/contacts_long?pageno=2&pagesize=4">/contacts_long?pageno=2&pagesize=4</a></li>
+                        </ul>
+                        <div>- 응답데이터 형식</div>
+                        <pre>
+{
+    "pageno":1,
+    "pagesize":2,
+    "totalcount":100,
+    "contacts":[
+        {"no":100,"name":"Jordyn","tel":"010-3456-8299","address":"서울시","photo":"http://sample.bmaster.kro.kr/photos/100.jpg"},
+        {"no":99,"name":"Cassidy","tel":"010-3456-8298","address":"서울시","photo":"http://sample.bmaster.kro.kr/photos/99.jpg"}
+    ]
+}</pre>
+                    </p>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+
+    <aside  id="a10" class="call-to-action bg-primary">
+        <div class="container">
+            <div class="row">
+                    <h3>10. GET /contacts_long/search/:name</h3>
+            </div>
+        </div>
+    </aside>
+
+   <!-- GET /contacts_long/search/:name -->
+    <section class="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-left">
+                    <p>: 이름을 이용해 연락처 검색(1초의 지연시간 발생)</p>
+                    <p class="lead">
+                        <div>- 전달 파라미터</div>
+                        <ul>
+                            <li>:name : 이름의 일부 문자열(2글자 이상만 허용함)</li>
+                        </ul>
+                        <div>- 요청 형식</div>
+                        <ul>
+                            <li><a href="/contacts_long/search/jo">/contacts_long/search/jo</a></li>
+                        </ul>
+                        <div>- 응답데이터 형식</div>
+                        <pre>
+[
+   {"no":49,"name":"Jordan Kelly","tel":"010-3456-8248","address":"서울시","photo":"http://localhost/photos/49.jpg"},
+   {"no":95,"name":"Jocelyn Smith","tel":"010-3456-8294","address":"서울시","photo":"http://localhost/photos/95.jpg"},
+   {"no":100,"name":"Jordyn Baker","tel":"010-3456-8299","address":"서울시","photo":"http://localhost/photos/100.jpg"}
+]</pre>
+                    </p>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container -->
+    </section>
+
 
     <aside class="call-to-action bg-primary">
     </aside>

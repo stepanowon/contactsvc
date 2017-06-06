@@ -8,6 +8,7 @@ var fs = require('fs');
 var rfs = require('rotating-file-stream');
 
 app.use(cors());
+app.enable("jsonp callback");   //jsonp 지원
 var logDirectory = path.join(__dirname, 'log')
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
 var accessLogStream = rfs('access.log', {
