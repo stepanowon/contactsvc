@@ -1,13 +1,11 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-var cors = require('cors');
-var morgan = require('morgan');
+//var cors = require('cors');
 var path = require('path');
 var fs = require('fs');
-var rfs = require('rotating-file-stream');
 
-app.use(cors());
+//app.use(cors());
 app.enable("jsonp callback");   //jsonp 지원
 var logDirectory = path.join(__dirname, 'log')
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory)
