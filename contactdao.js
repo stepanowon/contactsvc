@@ -8,6 +8,7 @@ var lastNames = "Anderson,Allen,Adams,Brown,Baker,Bailey,Bell,Brooks,Bennett,But
 var arrlNames = lastNames.split(',');
 
 var initializeDB = function() {
+    var base = (new Date()).getTime();
     var no = 0;
     db.get("SELECT no, name, tel, address FROM contacts", function(err,row) {
         if (err) {
@@ -15,11 +16,11 @@ var initializeDB = function() {
                 db.run("CREATE TABLE contacts (no INTEGER PRIMARY KEY, name TEXT, tel TEXT, address TEXT, photo TEXT)");
                 var stmt = db.prepare("INSERT INTO contacts (no, name,tel,address, photo) VALUES (?,?,?,?,?)");
                 for (var i=0; i < 100; i++) {
+                    no++;
                     var num=""+no;
                     if (no < 10) num = "0"+no;
                     var ridx = Math.floor(Math.random() * arrlNames.length);
-                    
-                    stmt.run(++no, arrfNames[i] + " " + arrlNames[ridx], "010-3456-82"+num, "서울시", "" + no + ".jpg");  
+                    stmt.run(base+no, arrfNames[i] + " " + arrlNames[ridx], "010-3456-82"+num, "서울시", "" + no + ".jpg");  
                 }
                 stmt.finalize();
             });
