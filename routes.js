@@ -3,6 +3,17 @@ var imagePath = "public/photos/";
 var multer = require('multer');
 var sleep = require('system-sleep');
 
+String.prototype.hashCode = function() {
+  var hash = 0, i, chr;
+  if (this.length === 0) return hash;
+  for (i = 0; i < this.length; i++) {
+    chr   = this.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0;
+  }
+  return hash;
+};
+
 var storage = multer.diskStorage({
     destination : function(req, file, callback) {
         console.log("##DEST");
@@ -12,7 +23,7 @@ var storage = multer.diskStorage({
         console.log(file);
         var f = file.originalname.split('.')[0];
         var ext = file.originalname.split('.')[1];
-        var newFileName = req.params.no + '.' + ext;
+         var newFileName = req.params.no + '_' + (new Date()).toTimeString().hashCode()  + '.' + ext;
         req.newFileName = newFileName;
         console.log(newFileName);
         callback(null, newFileName);
