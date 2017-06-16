@@ -4,8 +4,7 @@
 * LGPL License 
 * stepanowon@hotmail.com
 * 서버 시작
-<pre><code> 
-npm install
+<pre><code>npm install
 npm run start
 </code></pre>
 
