@@ -1,7 +1,7 @@
 # contactsvc
 >연락처 RESTful Service(Node.js + Express + Sqlite3) 샘플
 
->MIT License 
+>LGPL License 
 
 >stepanowon@hotmail.com
 
