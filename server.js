@@ -31,7 +31,7 @@ app.use(bodyParser.urlencoded({
 }));
 
 var server = app.listen(app.get('port'), function() {
-    console.log("연락처 서비스가 ' + app.get('port') + '번 포트에서 시작되었습니다!");
+    console.log("연락처 서비스가 " + app.get('port') + "번 포트에서 시작되었습니다!");
 });
 
 var router = require('./routes')(app);
