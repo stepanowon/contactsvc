@@ -3,6 +3,12 @@ var imagePath = "public/photos/";
 var multer = require('multer');
 var sleep = require('system-sleep');
 
+var photoUrl;
+if (req.get('host').indexOf('heroku') > -1)
+   photoUrl = 'https://' + req.get('host') + "/photos/";
+else
+   photoUrl = req.protocol + '://' + req.get('host') + "/photos/";
+
 String.prototype.hashCode = function() {
   var hash = 0, i, chr;
   if (this.length === 0) return hash;
@@ -62,7 +68,7 @@ module.exports = function(app) {
     app.get('/contacts_long', function(req, res) {
         console.log("### GET /contacts_long");
         sleep(1000);
-        var photoUrl = req.protocol + '://' + req.get('host') + "/photos/";
+        //var photoUrl = req.protocol + '://' + req.get('host') + "/photos/";
         pageno = parseInt(req.query.pageno);
         pagesize = parseInt(req.query.pagesize);
         if (isNaN(pageno)) pageno=0;
@@ -85,7 +91,7 @@ module.exports = function(app) {
 
     app.get('/contacts', function (req, res) {
         console.log("### GET /contacts");
-        var photoUrl = req.protocol + '://' + req.get('host') + "/photos/";
+        //var photoUrl = req.protocol + '://' + req.get('host') + "/photos/";
         pageno = parseInt(req.query.pageno);
         pagesize = parseInt(req.query.pagesize);
         if (isNaN(pageno)) pageno=0;
@@ -108,7 +114,7 @@ module.exports = function(app) {
 
     app.get('/contacts/:no', function(req,res) {
         console.log("### GET /contacts/:no");
-        var photoUrl = req.protocol + '://' + req.get('host') + "/photos/";
+        //var photoUrl = req.protocol + '://' + req.get('host') + "/photos/";
         var no = req.params.no;
         contactdao.getContact(photoUrl, no)
             .then(function(data) {
@@ -121,7 +127,7 @@ module.exports = function(app) {
 
     app.get('/contacts/search/:name', function(req,res) {
         console.log("### GET /contacts/search/:name")
-        var photoUrl = req.protocol + '://' + req.get('host') + "/photos/";
+        //var photoUrl = req.protocol + '://' + req.get('host') + "/photos/";
         var name = req.params.name;
         contactdao.searchContact(photoUrl, name)
             .then(function(data) {
@@ -135,7 +141,7 @@ module.exports = function(app) {
     app.get('/contacts_long/search/:name', function(req,res) {
         console.log("### GET /contacts_long/search/:name");
         sleep(1000);
-        var photoUrl = req.protocol + '://' + req.get('host') + "/photos/";
+        //var photoUrl = req.protocol + '://' + req.get('host') + "/photos/";
         var name = req.params.name;
         contactdao.searchContact(photoUrl, name)
             .then(function(data) {
