@@ -1,13 +1,13 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
-//var cors = require('cors');
+var cors = require('cors');
 //var morgan = require('morgan');
 //var path = require('path');
 //var fs = require('fs');
 //var rfs = require('rotating-file-stream');
 
-//app.use(cors());
+app.use(cors());
 app.enable("jsonp callback");   //jsonp 지원
 //-- 로깅
 /**
