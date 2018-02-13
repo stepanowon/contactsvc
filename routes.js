@@ -3,12 +3,6 @@ var imagePath = "public/photos/";
 var multer = require('multer');
 var sleep = require('system-sleep');
 
-var photoUrl;
-if (req.get('host').indexOf('heroku') > -1)
-   photoUrl = 'https://' + req.get('host') + "/photos/";
-else
-   photoUrl = req.protocol + '://' + req.get('host') + "/photos/";
-
 String.prototype.hashCode = function() {
   var hash = 0, i, chr;
   if (this.length === 0) return hash;
@@ -19,6 +13,16 @@ String.prototype.hashCode = function() {
   }
   return hash;
 };
+
+var getPhotoUrl = function(req) {
+    var photoUrl;
+    if (req.get('host').indexOf('heroku') > -1)
+       photoUrl = 'https://' + req.get('host') + "/photos/";
+    else
+       photoUrl = req.protocol + '://' + req.get('host') + "/photos/";
+    
+    return photoUrl;
+}
 
 var storage = multer.diskStorage({
     destination : function(req, file, callback) {
@@ -68,7 +72,7 @@ module.exports = function(app) {
     app.get('/contacts_long', function(req, res) {
         console.log("### GET /contacts_long");
         sleep(1000);
-        //var photoUrl = req.protocol + '://' + req.get('host') + "/photos/";
+        var photoUrl = getPhotoUrl(req);
         pageno = parseInt(req.query.pageno);
         pagesize = parseInt(req.query.pagesize);
         if (isNaN(pageno)) pageno=0;
@@ -91,7 +95,7 @@ module.exports = function(app) {
 
     app.get('/contacts', function (req, res) {
         console.log("### GET /contacts");
-        //var photoUrl = req.protocol + '://' + req.get('host') + "/photos/";
+        var photoUrl = getPhotoUrl(req);
         pageno = parseInt(req.query.pageno);
         pagesize = parseInt(req.query.pagesize);
         if (isNaN(pageno)) pageno=0;
@@ -114,7 +118,7 @@ module.exports = function(app) {
 
     app.get('/contacts/:no', function(req,res) {
         console.log("### GET /contacts/:no");
-        //var photoUrl = req.protocol + '://' + req.get('host') + "/photos/";
+        var photoUrl = getPhotoUrl(req);
         var no = req.params.no;
         contactdao.getContact(photoUrl, no)
             .then(function(data) {
@@ -127,7 +131,7 @@ module.exports = function(app) {
 
     app.get('/contacts/search/:name', function(req,res) {
         console.log("### GET /contacts/search/:name")
-        //var photoUrl = req.protocol + '://' + req.get('host') + "/photos/";
+        var photoUrl = getPhotoUrl(req);
         var name = req.params.name;
         contactdao.searchContact(photoUrl, name)
             .then(function(data) {
@@ -141,7 +145,7 @@ module.exports = function(app) {
     app.get('/contacts_long/search/:name', function(req,res) {
         console.log("### GET /contacts_long/search/:name");
         sleep(1000);
-        //var photoUrl = req.protocol + '://' + req.get('host') + "/photos/";
+        var photoUrl = getPhotoUrl(req);
         var name = req.params.name;
         contactdao.searchContact(photoUrl, name)
             .then(function(data) {
@@ -183,10 +187,6 @@ module.exports = function(app) {
                 console.log(err);
             });
     });
-
-    app.post('/contacts/photo/:no', function(req,res) {
-
-    })
 
     app.delete('/contacts/:no', function(req,res) {
         console.log("### DELETE /contacts/:no");
