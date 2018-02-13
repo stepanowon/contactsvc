@@ -10,5 +10,5 @@ npm run start
 ```
 
 > Online Demo1 : http://sample.bmaster.kro.kr  
-> Online Deom2 : https://contactsvc.herokuapp.com 
+> Online Deom2 : https://contactsvc.herokuapp.com   
 > Online Demo API Console : http://sample.bmaster.kro.kr/console 
