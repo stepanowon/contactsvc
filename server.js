@@ -9,6 +9,12 @@ var cors = require('cors');
 
 app.use(cors());
 app.enable("jsonp callback");   //jsonp 지원
+app.use(function (req, res, next) {
+    res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+    res.header('Expires', '-1');
+    res.header('Pragma', 'no-cache');
+    next()
+});
 //-- 로깅
 /**
 var logDirectory = path.join(__dirname, 'log')
@@ -19,6 +25,7 @@ var accessLogStream = rfs('access.log', {
 })
 app.use(morgan('combined', {stream: accessLogStream}))
 */
+
 app.set('port', (process.env.PORT || 3000));
 
 app.use(express.static('public'));
