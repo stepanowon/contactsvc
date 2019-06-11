@@ -30,6 +30,9 @@ app.use(bodyParser.urlencoded({
   extended: true
 }));
 
+const requestIp = require('request-ip');
+app.use(requestIp.mw())
+
 var server = app.listen(app.get('port'), function() {
     console.log("연락처 서비스가 " + app.get('port') + "번 포트에서 시작되었습니다!");
 });

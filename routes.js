@@ -43,6 +43,14 @@ var upload = multer({ storage:storage }).single('photo');
 
 
 module.exports = function(app) { 
+    app.get('/ip', function(req, res) {
+        console.log("### GET /ip");
+        var ip_info = { 
+            ipaddress : req.clientIp
+        };
+        res.jsonp(ip_info);
+    })
+
     app.get('/', function(req, res) {
         console.log("### GET /");
         res.render('index', {
