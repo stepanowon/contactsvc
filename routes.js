@@ -1,7 +1,7 @@
 var contactdao = require('./contactdao');
 var imagePath = "public/photos/";
 var multer = require('multer');
-var sleep = require('system-sleep');
+var sleep = require('sleep-promise');
 
 String.prototype.hashCode = function() {
   var hash = 0, i, chr;
@@ -79,26 +79,27 @@ module.exports = function(app) {
 
     app.get('/contacts_long', function(req, res) {
         console.log("### GET /contacts_long");
-        sleep(1000);
-        var photoUrl = getPhotoUrl(req);
-        pageno = parseInt(req.query.pageno);
-        pagesize = parseInt(req.query.pagesize);
-        if (isNaN(pageno)) pageno=0;
-        if (isNaN(pagesize)) pagesize=5;
-        if (pageno==0)  pagesize = 0;
-        contactdao.getContactList(photoUrl, pageno, pagesize)
-            .then(function(data) {
-                var contactlist = { 
-                    pageno: pageno,
-                    pagesize : pagesize,
-                    totalcount : data[1],
-                    contacts : data[0]
-                };
-                res.jsonp(contactlist);
-            })
-            .catch(function(err) {
-                    console.log(err);
-            });
+        sleep(1000).then(()=> {
+            var photoUrl = getPhotoUrl(req);
+            pageno = parseInt(req.query.pageno);
+            pagesize = parseInt(req.query.pagesize);
+            if (isNaN(pageno)) pageno=0;
+            if (isNaN(pagesize)) pagesize=5;
+            if (pageno==0)  pagesize = 0;
+            contactdao.getContactList(photoUrl, pageno, pagesize)
+                .then(function(data) {
+                    var contactlist = { 
+                        pageno: pageno,
+                        pagesize : pagesize,
+                        totalcount : data[1],
+                        contacts : data[0]
+                    };
+                    res.jsonp(contactlist);
+                })
+                .catch(function(err) {
+                        console.log(err);
+                });
+        })
     });
 
     app.get('/contacts', function (req, res) {
@@ -152,16 +153,17 @@ module.exports = function(app) {
 
     app.get('/contacts_long/search/:name', function(req,res) {
         console.log("### GET /contacts_long/search/:name");
-        sleep(1000);
-        var photoUrl = getPhotoUrl(req);
-        var name = req.params.name;
-        contactdao.searchContact(photoUrl, name)
-            .then(function(data) {
-                res.jsonp(data);
-            })
-            .catch(function(err) {
-                res.jsonp(err);
-            });
+        sleep(1000).then(()=>{
+            var photoUrl = getPhotoUrl(req);
+            var name = req.params.name;
+            contactdao.searchContact(photoUrl, name)
+                .then(function(data) {
+                    res.jsonp(data);
+                })
+                .catch(function(err) {
+                    res.jsonp(err);
+                });
+        })
     });
 
     app.post('/contacts', function(req,res) {
