@@ -1,0 +1,333 @@
+swagger: '2.0'
+info:
+  title: 연락처 서비스 API
+  description: 테스트용으로 만든 간단한 API입니다. 매일 새벽2시에 데이터가 초기화되어 100개의 연락처만 남습니다.
+  version: 1.0.0
+host: sample.bmaster.kro.kr
+schemes:
+  - http
+basePath: /
+produces:
+  - application/json
+paths:
+  /contacts:
+    get:
+      summary: 연락처 리스트를 응답합니다.
+      parameters:
+        - name: pageno
+          in: query
+          description: 페이지번호
+          required: false
+          default: 0
+          type: number
+          format: integer
+        - name: pagesize
+          in: query
+          description: 페이지사이즈
+          required: false
+          default: 5
+          type: number
+          format: integer
+      tags:
+        - 연락처리스트 조회
+      responses:
+        '200':
+          description: 연락처목록을 포함한 JSON Doucment
+          schema:
+            $ref: '#/definitions/ContactList'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    post:
+      summary: 새로운 연락처를 추가합니다.
+      tags:
+        - 연락처 추가
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - name: pet
+          in: body
+          description: The pet JSON you want to post
+          schema:
+            $ref: '#/definitions/Contact2'
+          required: true
+      responses:
+        '200':
+          description: 연락처 추가 작업 수행 결과
+          schema:
+            $ref: '#/definitions/Success'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  '/contacts/{no}':
+    get:
+      summary: 특정 일련번호의 연락처 한건을 조회합니다4
+      tags:
+        - 연락처 조회
+      parameters:
+        - name: 'no'
+          in: path
+          description: 연락처 일련번호
+          required: true
+          type: number
+      responses:
+        '200':
+          description: 연락처 한건
+          schema:
+            $ref: '#/definitions/Contact'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      summary: 특정 일련번호의 연락처 한건을 수정합니다
+      tags:
+        - 연락처 수정
+      consumes:
+        - application/json
+        - application/x-www-form-urlencoded
+      produces:
+        - application/json
+      parameters:
+        - name: 'no'
+          in: path
+          description: 연락처 일련번호
+          required: true
+          type: number
+        - name: contact
+          in: body
+          description: 수정하려는 Contact 한건
+          schema:
+            $ref: '#/definitions/Contact2'
+          required: true
+      responses:
+        '200':
+          description: 연락처 수정 작업 수행 결과
+          schema:
+            $ref: '#/definitions/Success'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      summary: 특정 일련번호의 연락처 한건을 삭제합니다
+      tags:
+        - 연락처 삭제
+      produces:
+        - application/json
+      parameters:
+        - name: 'no'
+          in: path
+          description: 삭제하려는 연락처 일련번호
+          required: true
+          type: number
+      responses:
+        '200':
+          description: 연락처 삭제 작업 수행 결과
+          schema:
+            $ref: '#/definitions/Success'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /contacts/batchinsert:
+    post:
+      summary: 한번에 여러건의 새로운 연락처를 추가합니다.
+      tags:
+        - 여러 연락처 추가
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: contactlist
+          in: body
+          description: 추가하려는 연락처 여러건
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Contact2'
+          required: true
+      responses:
+        '200':
+          description: 연락처 추가 작업 수행 결과
+          schema:
+            $ref: '#/definitions/Success'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  '/contacts/search/{name}':
+    get:
+      summary: 이름을 이용해 연락처를 검색합니다.
+      tags:
+        - 연락처 이름 검색
+      parameters:
+        - name: name
+          in: path
+          description: 이름의 일부를 입력합니다.(2글자 이상)
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 여러건의 연락처
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Contact'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  '/contacts/{no}/photo':
+    post:
+      summary: 연락처 정보의 사진을 업로드하고 정보를 변경합니다.
+      tags:
+        - 연락처 사진 변경
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      parameters:
+        - in: formData
+          name: photo
+          type: file
+          required: true
+          description: 업로드하고자 하는 사진 파일
+        - name: 'no'
+          in: path
+          type: number
+          required: true
+          description: 사진을 변경하고자 하는 연락처의 일련번호
+      responses:
+        '200':
+          description: 연락처 사진 업로드 수행결과
+          schema:
+            $ref: '#/definitions/Success'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  /contacts_long:
+    get:
+      summary: 1초의 지연시간 후 연락처 리스트를 응답합니다.
+      parameters:
+        - name: pageno
+          in: query
+          description: 페이지번호
+          required: false
+          default: 0
+          type: number
+          format: integer
+        - name: pagesize
+          in: query
+          description: 페이지사이즈
+          required: false
+          default: 5
+          type: number
+          format: integer
+      tags:
+        - 연락처리스트 조회
+      responses:
+        '200':
+          description: 연락처목록을 포함한 JSON Doucment
+          schema:
+            $ref: '#/definitions/ContactList'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+  '/contacts_long/search/{name}':
+    get:
+      summary: 이름을 이용해 연락처를 검색합니다.(1초의 지연시간 후 응답합니다.)
+      tags:
+        - 연락처 이름 검색
+      parameters:
+        - name: name
+          in: path
+          description: 이름의 일부를 입력합니다.(2글자 이상)
+          required: true
+          type: string
+      responses:
+        '200':
+          description: 여러건의 연락처
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Contact'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: '#/definitions/Error'
+
+definitions:
+  Contact:
+    type: object
+    properties:
+      'no':
+        type: number
+        description: 각 연락처의 고유 Key
+      name:
+        type: string
+        description: 이름
+      tel:
+        type: string
+        description: 전화번호
+      address:
+        type: string
+        description: 주소
+      photo:
+        type: string
+        description: 사진 URL
+  Contact2:
+    type: object
+    properties:
+      name:
+        type: string
+        description: 이름
+      tel:
+        type: string
+        description: 전화번호
+      address:
+        type: string
+        description: 주소
+  ContactList:
+    type: object
+    properties:
+      pageno:
+        type: number
+        description: 페이지번호
+      pagesize:
+        type: number
+        description: 페이지사이즈
+      totalcount:
+        type: number
+        description: 전체 데이터 갯수
+      contacts:
+        type: array
+        items:
+          $ref: '#/definitions/Contact'
+  Error:
+    type: object
+    properties:
+      message:
+        type: string
+      error:
+        type: object
+  Success:
+    type: object
+    properties:
+      status:
+        type: string
+        description: ok 또는 fail
+      message:
+        type: string
+        description: 처리 결과 메시지
+      'no':
+        type: number
+        description: 처리된 연락처의 일련번호
