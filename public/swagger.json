@@ -7,7 +7,7 @@
     },
     "host": "contactsvc.herokuapp.com",
     "schemes": [
-        "http"
+        "https"
     ],
     "basePath": "/",
     "produces": [
