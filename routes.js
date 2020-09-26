@@ -43,13 +43,6 @@ var upload = multer({ storage:storage }).single('photo');
 
 
 module.exports = function(app) { 
-    app.get('/ip', function(req, res) {
-        console.log("### GET /ip");
-        var ip_info = { 
-            ipaddress : req.clientIp
-        };
-        res.jsonp(ip_info);
-    })
 
     app.get('/', function(req, res) {
         console.log("### GET /");
@@ -59,7 +52,7 @@ module.exports = function(app) {
         })
     });
 
-    app.post('/contacts/:no/photo', function (req, res, next) {
+    app.post('/contacts/:no/photo', function (req, res) {
         console.log("### POST /contacts/:no/photo");
         upload(req,res,function(err) {
             if (err) {
@@ -70,7 +63,7 @@ module.exports = function(app) {
                         res.json(data);
                     })
                     .catch(function(err) {
-                        res.json(err);
+                        console.log(err);
                     });
             }
         })
@@ -94,10 +87,10 @@ module.exports = function(app) {
                         totalcount : data[1],
                         contacts : data[0]
                     };
-                    res.jsonp(contactlist);
+                    res.json(contactlist);
                 })
                 .catch(function(err) {
-                        console.log(err);
+                    console.log(err);
                 });
         })
     });
@@ -118,10 +111,10 @@ module.exports = function(app) {
                     totalcount : data[1],
                     contacts : data[0]
                 };
-                res.jsonp(contactlist);
+                res.json(contactlist);
             })
             .catch(function(err) {
-                    console.log(err);
+                console.log(err);
             });
     });
 
@@ -131,10 +124,10 @@ module.exports = function(app) {
         var no = req.params.no;
         contactdao.getContact(photoUrl, no)
             .then(function(data) {
-                res.jsonp(data);
+                res.json(data);
             })
             .catch(function(err) {
-                res.jsonp(err);
+                console.log(err);
             });
     });
 
@@ -144,10 +137,10 @@ module.exports = function(app) {
         var name = req.params.name;
         contactdao.searchContact(photoUrl, name)
             .then(function(data) {
-                res.jsonp(data);
+                res.json(data);
             })
             .catch(function(err) {
-                res.jsonp(err);
+                console.log(err);
             });
     });
 
@@ -158,10 +151,10 @@ module.exports = function(app) {
             var name = req.params.name;
             contactdao.searchContact(photoUrl, name)
                 .then(function(data) {
-                    res.jsonp(data);
+                    res.json(data);
                 })
                 .catch(function(err) {
-                    res.jsonp(err);
+                    console.log(err);
                 });
         })
     });
@@ -230,6 +223,7 @@ module.exports = function(app) {
     });
     
     app.use(function(err, req, res, next) {
+        console.log("# Error : " + err.toString())
         if(err.status === 404) {
             res.json({ status:404, message:"잘못된 URI 요청"});
         } else if (err.status === 500) {
