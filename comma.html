@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>콤마 <--> 개행문자 변환기</title>
+    <style>
+        #leftbox, #rightbox { width:40%; height:80%; padding:10px 10px 10px 10px;}
+        #container { width:90%; margin:10px 10px 10px 10px; height:500px; }
+        #left, #right { width:100%; height:100%;}
+    </style>
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script>
+    var tabSize = 2;
+    var tabString = "";
+    for (var i=0; i < tabSize; i++) {
+        tabString += " ";
+    }
+
+    $(function() {
+        $("#toComma").click(function() {
+            var left =  $("#left").val();
+            var transformed = left.split("\n").join(",");
+            $("#right").val(transformed);
+        })
+
+        $("#toLine").click(function() {
+            var right =  $("#right").val();
+            var transformed = right.split(",").join("\n");
+            $("#left").val(transformed);
+        })
+    })
+    </script>
+</head>
+<body>
+    <table id="container">
+        <tr>
+            <td id="leftbox">
+                <textarea id="left"></textarea>
+            </td>
+            <td id="rightbox">
+                <textarea id="right"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button id="toComma" style="float:right;">개행문자를 콤마로 ==> </button>
+            </td>
+            <td>
+                <button id="toLine"  style="float:left;"><=== 콤마를 개행문자로</button>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
