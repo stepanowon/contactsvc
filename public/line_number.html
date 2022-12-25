@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>소스코드 라인번호 매기기</title>
+    <style>
+        #leftbox, #rightbox { width:40%; height:80%; padding:10px 10px 10px 10px;}
+        #container { width:90%; margin:10px 10px 10px 10px; height:500px; }
+        #left, #right { width:100%; height:100%;}
+    </style>
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script>
+    var tabSize = 2;
+    var tabString = "";
+    for (var i=0; i < tabSize; i++) {
+        tabString += " ";
+    }
+
+    $(function() {
+        $("#add").click(function() {
+            var text = $("#left").val();
+            var lines = text.split("\n");
+            var totalLine = lines.length+1;
+            var maxCut = (totalLine + "").length;
+            if (maxCut < 2) maxCut = 2;
+
+            for (var i=0; i < lines.length; i++) {
+                var current = (i+1) + "";
+                var addZero = maxCut - current.length;
+                for (var j=0; j < addZero; j++) {
+                    current = "0" + current;
+                }
+                lines[i] = current + ": " + lines[i].replace(/\t/g, tabString);
+            }
+            var textLined = lines.join("\n");
+            $("#right").val(textLined)
+        })
+
+        $("#remove").click(function() {
+            var linedText = $("#right").val();
+            var lines = linedText.split("\n");
+            var totalLine = lines.length;
+            var delLineNumberCount = (totalLine + "").length;
+            if (delLineNumberCount < 2)
+                delLineNumberCount = 2;
+
+            for (var i=0; i < lines.length; i++) {
+                lines[i] = lines[i].substring(delLineNumberCount+1)
+            }
+            var textLined = lines.join("\n");
+            $("#left").val(textLined)
+        })
+    })
+    </script>
+</head>
+<body>
+    <table id="container">
+        <tr>
+            <td id="leftbox">
+                <textarea id="left"></textarea>
+            </td>
+            <td id="rightbox">
+                <textarea id="right"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button id="add" style="float:right;">라인 번호 추가 (--->)</button>
+            </td>
+            <td>
+                <button id="remove"  style="float:left;">(<---) 라인 번호 제거</button>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
