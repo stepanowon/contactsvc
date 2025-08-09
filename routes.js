@@ -209,7 +209,7 @@ module.exports = function(app) {
         contactdao.batchInsert(data)
             .then(function(data) {
                 res.json(data)
-            }).cathc(function(err) {
+            }).catch(function(err) {
                 console.log(err);
             });
         
